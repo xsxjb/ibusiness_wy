@@ -1,5 +1,9 @@
 package com.map.controller;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -9,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codegenerate.crmmanage.entity.Customer_infoEntity;
+import com.codegenerate.crmmanage.service.Customer_infoService;
+import com.ibusiness.common.util.CommonUtils;
+
 /**
  * 客户controller
  * 
@@ -17,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("customer")
 public class CustomerController {
-//    private Customer_infoService customer_infoService;
+    private Customer_infoService customer_infoService;
     /**
      * 初始化客户信息数据
      * @return
@@ -26,8 +34,8 @@ public class CustomerController {
     @ResponseBody
     public String queryCustomerInfo(Model model) {
     	JSONArray json = new JSONArray();
-//        List<Customer_infoEntity> list = customer_infoService.getAll();
-//        json = CommonUtils.getJsonFromList(list, null);
+        List<Customer_infoEntity> list = customer_infoService.getAll();
+        json = CommonUtils.getJsonFromList(list, null);
         return json.toString();
     }
     /**
@@ -38,13 +46,13 @@ public class CustomerController {
     @ResponseBody
     public String queryCustomerById(@RequestParam("id") String id, Model model) {
     	JSONObject json = new JSONObject();
-//        Customer_infoEntity bean = customer_infoService.get(id);
-//        json = CommonUtils.getJsonFromBean(bean, null);
+        Customer_infoEntity bean = customer_infoService.get(id);
+        json = CommonUtils.getJsonFromBean(bean, null);
         return json.toString();
     }
     // ======================================================================
-//    @Resource
-//    public void setCustomer_infoService(Customer_infoService customer_infoService) {
-//        this.customer_infoService = customer_infoService;
-//    }
+    @Resource
+    public void setCustomer_infoService(Customer_infoService customer_infoService) {
+        this.customer_infoService = customer_infoService;
+    }
 }

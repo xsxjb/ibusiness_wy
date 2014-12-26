@@ -1,4 +1,4 @@
-package ${bussiPackage}.${entityPackage}.controller;
+package com.codegenerate.productmanage.controller;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -39,44 +39,40 @@ import com.ibusiness.common.util.CommonUtils;
 import com.ibusiness.security.util.SpringSecurityUtils;
 import com.ibusiness.base.user.entity.UserBase;
 
-import ${bussiPackage}.${entityPackage}.entity.${entityName}Entity;
-import ${bussiPackage}.${entityPackage}.service.${entityName}Service;
-<#list subTab as sub>
-import ${bussiPackage}.${sub.packageName}.entity.${sub.entityName}Entity;
-import ${bussiPackage}.${sub.packageName}.service.${sub.entityName}Service;
-</#list>
+import com.codegenerate.productmanage.entity.Material_outEntity;
+import com.codegenerate.productmanage.service.Material_outService;
+import com.codegenerate.productmanage.entity.Material_out_sEntity;
+import com.codegenerate.productmanage.service.Material_out_sService;
 
 /**   
  * @Title: Controller
- * @Description: ${ftl_description}
+ * @Description: (领料)物料出库表流程
  * @author JiangBo
  *
  */
 @Controller
-@RequestMapping("${entityName?uncap_first}")
-public class ${entityName}Controller {
+@RequestMapping("material_out")
+public class Material_outController {
 
     private MessageHelper messageHelper;
-    private ${entityName}Service ${entityName?uncap_first}Service;
-    <#list subTab as sub>
-        private ${sub.entityName}Service ${sub.entityName?uncap_first}Service;
-    </#list>
+    private Material_outService material_outService;
+        private Material_out_sService material_out_sService;
    /**
      * 列表
      */
-    @RequestMapping("${entityName?uncap_first}-list")
+    @RequestMapping("material_out-list")
     public String list(@ModelAttribute Page page, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "flowType", required = false) String flowType, @RequestParam Map<String, Object> parameterMap, Model model) {
         // 查询条件Filter过滤器
         List<PropertyFilter> propertyFilters = PropertyFilter.buildFromMap(parameterMap);
         propertyFilters.add(new PropertyFilter("EQI_doneflag", flowType));
         propertyFilters.add(new PropertyFilter("EQS_assigneeuser", SpringSecurityUtils.getCurrentUserId()));
         // 根据条件查询数据
-        page = ${entityName?uncap_first}Service.pagedQuery(page, propertyFilters);
+        page = material_outService.pagedQuery(page, propertyFilters);
         model.addAttribute("page", page);
         model.addAttribute("flowId", flowId);
         model.addAttribute("flowType", flowType);
         // 返回JSP
-        return "codegenerate/${entityPackage}/${entityName?uncap_first}-list.jsp";
+        return "codegenerate/productmanage/material_out-list.jsp";
     }
     /**
      * 新建一条流程, 进入流程表单信息页面
@@ -84,14 +80,14 @@ public class ${entityName}Controller {
      * @param model
      * @return
      */
-    @RequestMapping("${entityName?uncap_first}-input")
+    @RequestMapping("material_out-input")
     public String input(@ModelAttribute Page page, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "id", required = false) String id, Model model) {
-        ${entityName}Entity entity = null;
+        Material_outEntity entity = null;
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
         if (!CommonUtils.isNull(id)) {
-            entity = ${entityName?uncap_first}Service.get(id);
+            entity = material_outService.get(id);
         } else {
-            entity = new ${entityName}Entity();
+            entity = new Material_outEntity();
             
             // 发起一个流程, 设置当前用户执行
             String userId = SpringSecurityUtils.getCurrentUserId();
@@ -108,12 +104,12 @@ public class ${entityName}Controller {
             entity.setId(UUID.randomUUID().toString());
             entity.setDoneflag(0);
             // 流程标题
-            entity.setTasktitle("${confForm.formTitle}");
-            ${entityName?uncap_first}Service.insert(entity);
+            entity.setTasktitle("(领料)物料出库信息");
+            material_outService.insert(entity);
         }
         
         // 默认值公式
-        entity = (${entityName}Entity) new FormulaCommon().defaultValue(entity, "${tableName}");
+        entity = (Material_outEntity) new FormulaCommon().defaultValue(entity, "IB_MATERIAL_OUT");
         
         model.addAttribute("model", entity);
         
@@ -121,7 +117,7 @@ public class ${entityName}Controller {
         Task task = bpmComBusiness.getTaskIdByExecutionId(entity.getExecutionid());
         String nodeCode = task.getTaskDefinitionKey();
         // 根据流程和节点信息取得 流程指定节点的字段信息
-        JSONObject json = bpmComBusiness.getNodeColumsInfo(flowId, entity.getExecutionid(), nodeCode, ${entityName}Entity.class);
+        JSONObject json = bpmComBusiness.getNodeColumsInfo(flowId, entity.getExecutionid(), nodeCode, Material_outEntity.class);
         model.addAttribute("nodeColumsMap", json);
         
         // 子表信息
@@ -129,10 +125,8 @@ public class ${entityName}Controller {
         List<PropertyFilter> propertyFilters = PropertyFilter.buildFromMap(map);
         propertyFilters.add(new PropertyFilter("EQS_parentid", id));
         // 根据条件查询数据
-        <#list subTab as sub>
-	        page = ${sub.entityName?uncap_first}Service.pagedQuery(page, propertyFilters);
+	        page = material_out_sService.pagedQuery(page, propertyFilters);
 	        model.addAttribute("page", page);
-       </#list>
         
         // 流程ID
         model.addAttribute("flowId", flowId);
@@ -143,46 +137,40 @@ public class ${entityName}Controller {
         model.addAttribute("userId", SpringSecurityUtils.getCurrentUserId());
         
         // 在controller中设置页面控件用的数据
-        <#list columns as po>
-            <#list po.modelAttributeList as ma>
-                ${ma}
-            </#list>
-        </#list>
-        return "codegenerate/${entityPackage}/${entityName?uncap_first}-input.jsp";
+                Map<String, com.ibusiness.component.form.entity.ConfFormTableColumn> warehousenoFTCMap= CommonBusiness.getInstance().getFormTableColumnMap("IB_MATERIAL_OUT", "materialOut");JSONObject warehousenoJsonObj = JSONObject.fromObject(warehousenoFTCMap.get("WAREHOUSENO").getConfSelectInfo());String warehousenoSql = warehousenoJsonObj.getString("sql");List<Map<String,Object>> warehousenoList = com.ibusiness.core.spring.ApplicationContextHelper.getBean(com.ibusiness.common.service.CommonBaseService.class).getJdbcTemplate().queryForList(warehousenoSql);List<ConfSelectItem> warehousenoItems = new java.util.ArrayList<ConfSelectItem>();for (Map<String,Object> mapBean : warehousenoList) {    ConfSelectItem confSelectItem = new ConfSelectItem();    confSelectItem.setKey(mapBean.get("vKey").toString());    confSelectItem.setValue(mapBean.get("vValue").toString());    warehousenoItems.add(confSelectItem);}model.addAttribute("warehousenoItems", warehousenoItems);
+        return "codegenerate/productmanage/material_out-input.jsp";
     }
     
-    <#list subTab as sub>
     /**
      * 子表新建
      */
-    @RequestMapping("${sub.entityName?uncap_first}-input")
-    public String ${sub.entityName?uncap_first}Input(@RequestParam(value = "flowId", required = false) String flowId, @RequestParam("id") String id, @RequestParam("subId") String subId, Model model) {
-        ${sub.entityName}Entity entity = ${sub.entityName?uncap_first}Service.get(subId);
+    @RequestMapping("material_out_s-input")
+    public String material_out_sInput(@RequestParam(value = "flowId", required = false) String flowId, @RequestParam("id") String id, @RequestParam("subId") String subId, Model model) {
+        Material_out_sEntity entity = material_out_sService.get(subId);
         model.addAttribute("model", entity);
         model.addAttribute("parentid", id);
         model.addAttribute("flowId", flowId);
         
         // 取得主表中的 executionid
-        ${entityName}Entity mainEntity = ${entityName?uncap_first}Service.get(id);
+        Material_outEntity mainEntity = material_outService.get(id);
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
         // 取得当前流程节点信息
         Task task = bpmComBusiness.getTaskIdByExecutionId(mainEntity.getExecutionid());
         String nodeCode = task.getTaskDefinitionKey();
         // 根据流程和节点信息取得 流程指定节点的字段信息
-        JSONObject json = bpmComBusiness.getNodeColumsInfo(flowId, mainEntity.getExecutionid(), nodeCode, ${sub.entityName}Entity.class);
+        JSONObject json = bpmComBusiness.getNodeColumsInfo(flowId, mainEntity.getExecutionid(), nodeCode, Material_out_sEntity.class);
         model.addAttribute("nodeColumsMap", json);
         
-        return "codegenerate/${entityPackage}/${sub.entityName?uncap_first}-input.jsp";
+        return "codegenerate/productmanage/material_out_s-input.jsp";
     }
-    </#list>
     /**
      * 办理
      * 
      * @return
      * @throws Exception
      */
-    @RequestMapping("${entityName?uncap_first}-complete")
-    public String completeTask(@ModelAttribute ${entityName}Entity entity, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "userId", required = false) String userId, RedirectAttributes redirectAttributes) throws Exception {
+    @RequestMapping("material_out-complete")
+    public String completeTask(@ModelAttribute Material_outEntity entity, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "userId", required = false) String userId, RedirectAttributes redirectAttributes) throws Exception {
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
         String executionId = null;
         // 
@@ -222,24 +210,24 @@ public class ${entityName}Controller {
             entity.setId(UUID.randomUUID().toString());
             entity.setDoneflag(0);
             id = entity.getId();
-            ${entityName?uncap_first}Service.insert(entity);
+            material_outService.insert(entity);
         } else {
-            ${entityName?uncap_first}Service.update(entity);
+            material_outService.update(entity);
         }
         // 
         messageHelper.addFlashMessage(redirectAttributes, "core.success.save", "办理成功");
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-list.do?flowType=0&flowId=" + flowId;
+        return "redirect:/material_out/material_out-list.do?flowType=0&flowId=" + flowId;
     }
     /**
      * 回退功能
      */
-    @RequestMapping("${entityName?uncap_first}-rollback")
+    @RequestMapping("material_out-rollback")
     public String rollback(@RequestParam("executionId") String executiond, @RequestParam("flowId") String flowId) {
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
         Task task = bpmComBusiness.getTaskIdByExecutionId(executiond);
         
         new BpmComBusiness().rollback(task.getId());
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-list.do?flowType=0&flowId=" + flowId;
+        return "redirect:/material_out/material_out-list.do?flowType=0&flowId=" + flowId;
     }
     /**
      * 草稿
@@ -247,20 +235,20 @@ public class ${entityName}Controller {
      * @return
      * @throws Exception
      */
-    @RequestMapping("${entityName?uncap_first}-save-draft")
-    public String saveDraft(@ModelAttribute ${entityName}Entity entity, @RequestParam(value = "flowId", required = false) String flowId, RedirectAttributes redirectAttributes) throws Exception {
+    @RequestMapping("material_out-save-draft")
+    public String saveDraft(@ModelAttribute Material_outEntity entity, @RequestParam(value = "flowId", required = false) String flowId, RedirectAttributes redirectAttributes) throws Exception {
         // 再进行数据复制
         String id = entity.getId();
         if (CommonUtils.isNull(id)) {
             entity.setId(UUID.randomUUID().toString());
             entity.setDoneflag(0);
-            ${entityName?uncap_first}Service.insert(entity);
+            material_outService.insert(entity);
             id = entity.getId();
         } else {
-            ${entityName?uncap_first}Service.update(entity);
+            material_outService.update(entity);
         }
         messageHelper.addFlashMessage(redirectAttributes, "core.success.save", "保存成功");
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-input.do?flowId=" + flowId + "&id=" + id;
+        return "redirect:/material_out/material_out-input.do?flowId=" + flowId + "&id=" + id;
     }
     /**
      * 删除一条流程信息
@@ -268,67 +256,66 @@ public class ${entityName}Controller {
      * @param redirectAttributes
      * @return
      */
-    @RequestMapping("${entityName?uncap_first}-remove")
+    @RequestMapping("material_out-remove")
     public String remove(@RequestParam("selectedItem") List<String> selectedItem, @RequestParam(value = "flowId", required = false) String flowId, RedirectAttributes redirectAttributes) {
-        List<${entityName}Entity> entitys = ${entityName?uncap_first}Service.findByIds(selectedItem);
+        List<Material_outEntity> entitys = material_outService.findByIds(selectedItem);
         // 实例化BPM流程共用类对象
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
-        for (${entityName}Entity entity : entitys) {
-            ${entityName?uncap_first}Service.remove(entity);
+        for (Material_outEntity entity : entitys) {
+            material_outService.remove(entity);
             // 删除流程实例
             bpmComBusiness.deleteProcessInstance(entity.getExecutionid());
         }
         messageHelper.addFlashMessage(redirectAttributes, "core.success.delete", "删除成功");
 
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-list.do?flowType=0&flowId=" + flowId;
+        return "redirect:/material_out/material_out-list.do?flowType=0&flowId=" + flowId;
     }
     
-    <#list subTab as sub>
     /**
      * 子表保存
      */
-    @RequestMapping("${sub.entityName?uncap_first}-save")
-    public String subSave(@ModelAttribute ${sub.entityName}Entity entity, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "parentid", required = false) String parentid, RedirectAttributes redirectAttributes) throws Exception {
+    @RequestMapping("material_out_s-save")
+    public String subSave(@ModelAttribute Material_out_sEntity entity, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "parentid", required = false) String parentid, RedirectAttributes redirectAttributes) throws Exception {
         String id = entity.getId();
         if (CommonUtils.isNull(id)) {
             id = UUID.randomUUID().toString();
             entity.setId(id);
             entity.setParentid(parentid);
-            ${sub.entityName?uncap_first}Service.insert(entity);
+            material_out_sService.insert(entity);
         } else {
-            ${sub.entityName?uncap_first}Service.update(entity);
+            material_out_sService.update(entity);
         }
         messageHelper.addFlashMessage(redirectAttributes, "core.success.save", "保存成功");
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-input.do?flowId=" + flowId + "&id=" + entity.getParentid();
+        return "redirect:/material_out/material_out-input.do?flowId=" + flowId + "&id=" + entity.getParentid();
     }
     /**
      * 子表删除
      */
-    @RequestMapping("${sub.entityName?uncap_first}-remove")
+    @RequestMapping("material_out_s-remove")
     public String subRemove(@RequestParam("selectedItem") List<String> selectedItem, @RequestParam(value = "flowId", required = false) String flowId, RedirectAttributes redirectAttributes) throws Exception {
-        List<${sub.entityName}Entity> entitys = ${sub.entityName?uncap_first}Service.findByIds(selectedItem);
-        for (${sub.entityName}Entity entity : entitys) {
-            ${sub.entityName?uncap_first}Service.remove(entity);
+        List<Material_out_sEntity> entitys = material_out_sService.findByIds(selectedItem);
+        for (Material_out_sEntity entity : entitys) {
+            material_out_sService.remove(entity);
         }
         messageHelper.addFlashMessage(redirectAttributes, "core.success.delete", "删除成功");
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-input.do?flowId=" + flowId + "&id=" + entitys.get(0).getParentid();
+        return "redirect:/material_out/material_out-input.do?flowId=" + flowId + "&id=" + entitys.get(0).getParentid();
     }
     /**
      * 子表 excel导出
      */
     @SuppressWarnings("unchecked")
-    @RequestMapping("${sub.entityName?uncap_first}-export")
-    public void excel${sub.entityName}Export(@ModelAttribute Page page, @RequestParam Map<String, Object> parameterMap, HttpServletResponse response) {
+    @RequestMapping("material_out_s-export")
+    public void excelMaterial_out_sExport(@ModelAttribute Page page, @RequestParam Map<String, Object> parameterMap, HttpServletResponse response) {
         List<PropertyFilter> propertyFilters = PropertyFilter.buildFromMap(parameterMap);
-        page = ${sub.entityName?uncap_first}Service.pagedQuery(page, propertyFilters);
-        List<${sub.entityName}Entity> beans = (List<${sub.entityName}Entity>) page.getResult();
+        page = material_out_sService.pagedQuery(page, propertyFilters);
+        List<Material_out_sEntity> beans = (List<Material_out_sEntity>) page.getResult();
 
         TableModel tableModel = new TableModel();
         // excel文件名
-        tableModel.setExcelName("${ftl_description}"+CommonUtils.getInstance().getCurrentDateTime());
+        tableModel.setExcelName("(领料)物料出库表流程"+CommonUtils.getInstance().getCurrentDateTime());
         // 列名
-        tableModel.addHeaders(<#list sub.originalColumns as subItem><#if subItem_index!=0>, </#if>"${subItem.fieldName}"</#list>);
-        tableModel.setTableName("${tableName}");
+        tableModel.addHeaders("materialno", "materialname", "materialmodel", "materialunit", "materialnum", "manufacturename", "remark", "id", "parentid");
+        tableModel.setTableName("IB_MATERIAL_OUT");
         tableModel.setData(beans);
         try {
             new ExcelCommon().exportExcel(response, tableModel);
@@ -339,23 +326,22 @@ public class ${entityName}Controller {
     /**
      * 子表 excel导入
      */
-    @RequestMapping("${sub.entityName?uncap_first}-importExcel")
-    public String import${sub.entityName}Export(@RequestParam("attachment") MultipartFile attachment, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "parentid", required = false) String parentid, HttpServletResponse response) {
+    @RequestMapping("material_out_s-importExcel")
+    public String importMaterial_out_sExport(@RequestParam("attachment") MultipartFile attachment, @RequestParam(value = "flowId", required = false) String flowId, @RequestParam(value = "parentid", required = false) String parentid, HttpServletResponse response) {
         try {
             File file = new File("test.xls"); 
             attachment.transferTo(file);
             // 
             TableModel tableModel = new TableModel();
             // 列名
-            tableModel.addHeaders(<#list sub.originalColumns as subItem><#if subItem_index!=0>, </#if>"${subItem.fieldName}"</#list>);
+            tableModel.addHeaders("materialno", "materialname", "materialmodel", "materialunit", "materialnum", "manufacturename", "remark", "id", "parentid");
             // 导入
-            new ExcelCommon().uploadExcel(file, tableModel, "${bussiPackage}.${entityPackage}.entity.${sub.entityName}Entity");
+            new ExcelCommon().uploadExcel(file, tableModel, "com.codegenerate.productmanage.entity.Material_out_sEntity");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/${entityName?uncap_first}/${entityName?uncap_first}-input.do?flowId=" + flowId + "&id=" + parentid;
+        return "redirect:/material_out/material_out-input.do?flowId=" + flowId + "&id=" + parentid;
     }
-    </#list>
 
     /**
      * 流程定义图像
@@ -363,9 +349,9 @@ public class ${entityName}Controller {
      * @param response
      * @throws Exception
      */
-    @RequestMapping("${entityName?uncap_first}-graph")
+    @RequestMapping("material_out-graph")
     public void graphProcessDefinition(@RequestParam("id") String id, HttpServletResponse response) throws Exception {
-        ${entityName}Entity entity = ${entityName?uncap_first}Service.get(id);
+        Material_outEntity entity = material_outService.get(id);
         BpmComBusiness bpmComBusiness = new BpmComBusiness();
         if (CommonUtils.isNull(entity.getExecutionid())) {
             return;
@@ -385,13 +371,11 @@ public class ${entityName}Controller {
         this.messageHelper = messageHelper;
     }
     @Resource
-    public void set${entityName}Service(${entityName}Service ${entityName?uncap_first}Service) {
-        this.${entityName?uncap_first}Service = ${entityName?uncap_first}Service;
+    public void setMaterial_outService(Material_outService material_outService) {
+        this.material_outService = material_outService;
     }
-    <#list subTab as sub>
         @Resource
-	    public void set${sub.entityName}Service(${sub.entityName}Service ${sub.entityName?uncap_first}Service) {
-	        this.${sub.entityName?uncap_first}Service = ${sub.entityName?uncap_first}Service;
+	    public void setMaterial_out_sService(Material_out_sService material_out_sService) {
+	        this.material_out_sService = material_out_sService;
 	    }
-    </#list>
 }
