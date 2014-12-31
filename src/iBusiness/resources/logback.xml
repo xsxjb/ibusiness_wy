@@ -10,6 +10,7 @@
       <path>application.server.properties</path>
    </define>
 
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<property resource="application.properties"/>
 
 	<if condition="${LOCAL_PROP_EXISTS}">
@@ -45,8 +46,8 @@
 			<include resource="logback/log4jdbc.xml" />
 		</then>
 	</if>
-
-    <root level="info">
+    <!-- 控制台日志输出 输出日志级别 info warn error -->
+    <root level="warn">
         <appender-ref ref="CONSOLE" />
 		<if condition='${log.file.enable}'>
 			<then>
@@ -55,7 +56,7 @@
 		</if>
     </root>
 
-	<logger name="com" level="info"/>
+	<logger name="com" level="error"/>
 	<logger name="com.sun.jersey.core.spi.component.ProviderServices" level="warn"/>
 	<logger name="com.sun.jersey.server.impl.cdi.CDIComponentProviderFactoryInitializer" level="warn"/>
 	<logger name="com.sun.jersey.server.impl.ejb.EJBComponentProviderFactoryInitilizer" level="warn"/>
@@ -66,6 +67,5 @@
 	<logger name="org.springframework.security.access.event.LoggerListener" level="error"/>
 	<logger name="org.springframework.security.authentication.event.LoggerListener" level="error"/>
 	<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="warn"/>
-
 
 </configuration>

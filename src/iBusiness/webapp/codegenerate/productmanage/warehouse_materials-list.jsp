@@ -58,10 +58,7 @@
 	   <div class="panel-heading"><h4 class="panel-title">物料库存管理列表</h4></div>
        <div class="panel-body">
 		    <div class="pull-left">
-			    <button class="btn btn-default btn-sm a-insert" onclick="location.href='warehouse_materials-input.do'">新建</button>
-			    <button class="btn btn-default btn-sm a-remove" onclick="table.removeAll()">删除</button>
 			    <button class="btn btn-default btn-sm" onclick="table.exportExcel()">导出Excel</button>
-            
 			</div>
 			<div class="pull-right">
 			  每页显示
@@ -87,9 +84,7 @@
 					                <th class="sorting">价格</th>
 					                <th class="sorting">单位</th>
 					                <th class="sorting">数量</th>
-					                <th class="sorting">仓库编号</th>
 					                <th class="sorting">仓库名称</th>
-				        <th width="80">&nbsp;</th>
 				      </tr>
 				    </thead>
 					    <tbody>
@@ -103,11 +98,7 @@
 						            <td>${item.materialprice}</td>
 						            <td>${item.materialunit}</td>
 						            <td>${item.materialnum}</td>
-						            <td>${item.warehouseno}</td>
 						            <td>${item.warehousename}</td>
-					        <td>
-					          <a href="warehouse_materials-input.do?id=${item.id}" class="a-update"><spring:message code="core.list.edit" text="编辑"/></a>
-					        </td>
 					      </tr>
 					      </c:forEach>
 					    </tbody>

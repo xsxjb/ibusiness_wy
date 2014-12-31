@@ -78,16 +78,11 @@
 						          <th width="10" class="m-table-check"><input type="checkbox" name="checkAll" onchange="toggleSelectedItems(this.checked)"></th>
 				                          <th class="sorting">业主编号</th>
 				                          <th class="sorting">业主姓名</th>
-				                          <th class="sorting">业主登录名</th>
-				                          <th class="sorting">业主登录密码</th>
-				                          <th class="sorting">业主的性别</th>
 				                          <th class="sorting">业主的年龄</th>
 				                          <th class="sorting">业主所属楼栋</th>
 				                          <th class="sorting">业主房间号</th>
 				                          <th class="sorting">业主身份证号</th>
 				                          <th class="sorting">业主联系电话</th>
-				                          <th class="sorting">业主籍贯</th>
-				                          <th class="sorting">业主工作地</th>
 						          <th width="60">&nbsp;</th>
 						      </tr>
 						    </thead>
@@ -97,16 +92,11 @@
 							        <td><input type="checkbox" class="selectedItem a-check" name="selectedItem" value="${item.id}"></td>
 				                            <td>${item.ownerid}</td>
 				                            <td>${item.ownername}</td>
-				                            <td>${item.ownerloginname}</td>
-				                            <td>${item.ownerpassword}</td>
-				                            <td>${item.ownersex}</td>
 				                            <td>${item.ownerage}</td>
 				                            <td>${item.houseid}</td>
 				                            <td>${item.roomid}</td>
 				                            <td>${item.owneridcard}</td>
 				                            <td>${item.ownertel}</td>
-				                            <td>${item.ownerhomeplace}</td>
-				                            <td>${item.ownerworkplace}</td>
 							        <td>
 							          <a href="owner_info-input.do?id=${item.id}" class="a-update"><spring:message code="core.list.edit" text="编辑"/></a>
 							        </td>

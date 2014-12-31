@@ -48,6 +48,8 @@
 	          <div id="search" class="content content-inner">
 				  <form name="cgForm" method="post" action="house_info-list.do" class="form-inline">
 				    <div class="form-group">
+				                <label for="code_table_areano">小区编号:</label>
+				                <input type="text" id="code_table_areano" name="filter_LIKES_areano" value="${param.filter_LIKES_areano}">
 				                <label for="code_table_housename">楼栋名:</label>
 				                <input type="text" id="code_table_housename" name="filter_LIKES_housename" value="${param.filter_LIKES_housename}">
 					    <button class="btn btn-default btn-sm" onclick="document.cgForm.submit()">查询</button>
@@ -80,12 +82,15 @@
 			      <thead>
 				      <tr>
 				        <th width="10" class="m-table-check"><input type="checkbox" name="checkAll" onchange="toggleSelectedItems(this.checked)"></th>
-					                <th class="sorting">楼栋编号</th>
 					                <th class="sorting">楼栋名</th>
 					                <th class="sorting">开工时间</th>
 					                <th class="sorting">竣工时间</th>
-					                <th class="sorting">漏洞信息</th>
-					                <th class="sorting">建筑面积</th>
+					                <th class="sorting">入户日期</th>
+					                <th class="sorting">楼高</th>
+					                <th class="sorting">楼层</th>
+					                <th class="sorting">总房间数</th>
+					                <th class="sorting">已售套数</th>
+					                <th class="sorting">已租套数</th>
 				        <th width="80">&nbsp;</th>
 				      </tr>
 				    </thead>
@@ -93,12 +98,15 @@
 					      <c:forEach items="${page.result}" var="item">
 					      <tr>
 					        <td><input type="checkbox" class="selectedItem a-check" name="selectedItem" value="${item.id}"></td>
-						            <td>${item.houseid}</td>
 						            <td>${item.housename}</td>
 						            <td>${item.buildstarttime}</td>
 						            <td>${item.buildendtime}</td>
-						            <td>${item.housebug}</td>
-						            <td>${item.housearea}</td>
+						            <td>${item.entrancedate}</td>
+						            <td>${item.buildinghigh}</td>
+						            <td>${item.buildingfloor}</td>
+						            <td>${item.totalrooms}</td>
+						            <td>${item.soldnum}</td>
+						            <td>${item.rentnum}</td>
 					        <td>
 					          <a href="house_info-input.do?id=${item.id}" class="a-update"><spring:message code="core.list.edit" text="编辑"/></a>
 					        </td>

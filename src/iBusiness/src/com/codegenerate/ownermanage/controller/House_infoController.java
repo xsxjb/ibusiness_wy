@@ -134,7 +134,7 @@ public class House_infoController {
         // excel文件名
         tableModel.setExcelName("楼栋信息表页面"+CommonUtils.getInstance().getCurrentDateTime());
         // 列名
-        tableModel.addHeaders("id", "houseid", "housename", "buildstarttime", "buildendtime", "housebug", "housearea");
+        tableModel.addHeaders("houseid", "housename", "buildstarttime", "buildendtime", "housebug", "housearea", "id", "areano", "entrancedate", "usearea", "afforestedarea", "developers", "constructionunit", "buildinghigh", "buildingfloor", "buildingstructure", "userstate", "totalrooms", "soldnum", "rentnum");
         tableModel.setTableName("IB_HOUSE_INFO");
         tableModel.setData(beans);
         try {
@@ -154,7 +154,7 @@ public class House_infoController {
             // 
             TableModel tableModel = new TableModel();
             // 列名
-            tableModel.addHeaders("id", "houseid", "housename", "buildstarttime", "buildendtime", "housebug", "housearea");
+            tableModel.addHeaders("houseid", "housename", "buildstarttime", "buildendtime", "housebug", "housearea", "id", "areano", "entrancedate", "usearea", "afforestedarea", "developers", "constructionunit", "buildinghigh", "buildingfloor", "buildingstructure", "userstate", "totalrooms", "soldnum", "rentnum");
             // 导入
             new ExcelCommon().uploadExcel(file, tableModel, "com.codegenerate.ownermanage.entity.House_infoEntity");
         } catch (Exception e) {

@@ -63,7 +63,7 @@
 	<div class="span2"></div>
 	<!-- start of main -->
 	<div class="panel panel-default col-md-10"> 
-	    <div class="panel-heading"><h4 class="panel-title">原料入库流程流程控制</h4></div>
+	    <div class="panel-heading"><h4 class="panel-title">原料入库流程控制</h4></div>
 	    <div class="panel-body">
 	        <div class="pull-left">
 	            <a href="#nextTaskUserDiv" role="button" class="btn btn-default btn-sm" data-toggle="modal">办理</a>
@@ -97,27 +97,18 @@
                             </div>
 						 
                            <div class="form-group">
-						      <label class="control-label  col-lg-2" for="code-warehouseno">仓库编号:</label>
+						      <label class="control-label  col-lg-2" for="code-warehouseno">仓库名称:</label>
                               <div class="col-lg-3">  <c:if test="${nodeColumsMap.warehouseno.fcEdit=='1'}">    <select id="code-warehouseno" name="warehouseno" class="form-control" >          <option value="" >请选择</option>        <c:forEach items="${warehousenoItems}" var="item">          <option value="${item.key}" ${item.key==model.warehouseno? 'selected':''} >${item.value}</option>        </c:forEach>    </select>  </c:if>  <c:if test="${nodeColumsMap.warehouseno.fcEdit!='1'}">    <label>${model.warehouseno}</label>    <input type="hidden" name="warehouseno" value="${model.warehouseno}">  </c:if></div>
-	                                      
-						 
-						      <label class="control-label  col-lg-2" for="code-warehousename">仓库名称:</label>
-                              <div class="col-lg-3">  <c:if test="${nodeColumsMap.warehousename.fcEdit=='1'}">    <input id="code-warehousename" type="text" name="warehousename" value="${model.warehousename}" class="text required" >  </c:if>  <c:if test="${nodeColumsMap.warehousename.fcEdit!='1'}">    <label>${model.warehousename}</label>    <input type="hidden" name="warehousename" value="${model.warehousename}">  </c:if></div>
-	                                      
+                              
+                              <label class="control-label  col-lg-2" for="code-totalnum">总数量:</label>
+                              <div class="col-lg-3">  <c:if test="${nodeColumsMap.totalnum.fcEdit=='1'}">    <input id="code-totalnum" type="text" name="totalnum" value="${model.totalnum}" class="text number required" >  </c:if>  <c:if test="${nodeColumsMap.totalnum.fcEdit!='1'}">    <label>${model.totalnum}</label>    <input type="hidden" name="totalnum" value="${model.totalnum}">  </c:if></div>
                             </div>
 						 
                            <div class="form-group">
-						      <label class="control-label  col-lg-2" for="code-totalnum">总数量:</label>
-                              <div class="col-lg-3">  <c:if test="${nodeColumsMap.totalnum.fcEdit=='1'}">    <input id="code-totalnum" type="text" name="totalnum" value="${model.totalnum}" class="text number required" >  </c:if>  <c:if test="${nodeColumsMap.totalnum.fcEdit!='1'}">    <label>${model.totalnum}</label>    <input type="hidden" name="totalnum" value="${model.totalnum}">  </c:if></div>
-	                                      
-						 
 						      <label class="control-label  col-lg-2" for="code-amount">合计金额:</label>
                               <div class="col-lg-3">  <c:if test="${nodeColumsMap.amount.fcEdit=='1'}">    <input id="code-amount" type="text" name="amount" value="${model.amount}" class="text number required" >  </c:if>  <c:if test="${nodeColumsMap.amount.fcEdit!='1'}">    <label>${model.amount}</label>    <input type="hidden" name="amount" value="${model.amount}">  </c:if></div>
-	                                      
-                            </div>
-						 
-                           <div class="form-group">
-						      <label class="control-label  col-lg-2" for="code-amountbig">合计金额大写:</label>
+                              
+                              <label class="control-label  col-lg-2" for="code-amountbig">合计金额大写:</label>
                               <div class="col-lg-3">  <c:if test="${nodeColumsMap.amountbig.fcEdit=='1'}">    <input id="code-amountbig" type="text" name="amountbig" value="${model.amountbig}" class="text required" >  </c:if>  <c:if test="${nodeColumsMap.amountbig.fcEdit!='1'}">    <label>${model.amountbig}</label>    <input type="hidden" name="amountbig" value="${model.amountbig}">  </c:if></div>
                             </div>
                             
