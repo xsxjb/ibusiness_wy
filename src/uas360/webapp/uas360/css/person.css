@@ -1,0 +1,72 @@
+.myTab{
+    margin-top: 30px;
+}
+.nav-tabs{
+    border-bottom-color: #ea544a;
+
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    background-color: transparent;
+    color: #ea544a;
+    border-top-color: #ea544a;
+    border-left-color: #ea544a;
+    border-right-color: #ea544a;
+    border-bottom-color: #f3f3f3;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-shadow: 3px 3px 5px #888888;
+}
+.photo{
+    border-radius: 4px;
+
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 100px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.icon{
+    position: relative;
+
+    text-align: center;
+    height: 150px;
+    width: 150px;
+}
+.icon:hover .icon-edit{
+    display:inline-block;
+}
+.icon-edit{
+    color: #fff;
+    background-color: #ea544a;
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    width: 100px;
+    display: none;
+}
+
+.photofile{
+    display: none;
+
+}
+
+.photo-dialog{
+    background-color:lightgrey;
+    width: 350px;
+    height:500px;
+
+}
+
+.photo-dialog-title{
+    color:#ea544a;
+
+}
+.src-photo{
+    border-radius: 4px;
+    width: 300px;
+    height:300px;
+
+}
+

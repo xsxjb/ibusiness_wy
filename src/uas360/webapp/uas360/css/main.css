@@ -1,0 +1,172 @@
+body {
+    margin: 0;
+    font-size: 13px;
+    line-height: 22px;
+
+}
+
+a {
+    color: #ea544a;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+
+}
+header {
+    margin: 20px auto;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    font-family: "Microsoft YaHei", "微软雅黑", Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+header span.title{
+    font-size: 30px;
+    text-shadow: 5px 5px 5px #888888;
+}
+
+header span.exit{
+    right: 100px;
+    position: absolute;
+    cursor: pointer;
+}
+.top-div{
+
+    text-align: center;
+
+    padding: 10px;
+    font-size: 13px;
+
+    font-weight: normal;
+
+    border: 1px solid #DDD;
+    -webkit-box-shadow: 1px 1px 7px #fff;
+    -moz-box-shadow: 1px 1px 7px #fff;
+    box-shadow: 1px 1px 7px #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin: 5px;
+    background-color: #fff;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+
+.module-div{
+
+    text-align: center;
+
+    padding: 10px;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: normal;
+
+    border: 1px solid #DDD;
+    -webkit-box-shadow: 1px 1px 7px rgba(153, 153, 153, 0.2);
+    -moz-box-shadow: 1px 1px 7px rgba(153, 153, 153, 0.2);
+    box-shadow: 1px 1px 7px rgba(153, 153, 153, 0.2);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    margin: 0 10px 0 0;
+    background-color: #fff;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.top-div:hover,.module-div:hover {
+    background-color:yellowgreen;
+    opacity: 1.0;
+    cursor: pointer;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.divider{
+    margin: 20px auto;
+    /*
+    width: 100%;
+    height: 10px;
+    background: url("../images/underline.png");*/
+}
+
+
+#message .label {
+    background:url(../images/n-butterfly.png) no-repeat center bottom;
+}
+#person .label {
+    background:url(../images/n-bigfish.png) no-repeat center bottom;
+}
+#manage .label {
+    background:url(../images/n-crab.png) no-repeat center bottom;
+}
+#query .label {
+    background:url(../images/n-pig.png) no-repeat center bottom;
+}
+
+#house .label {
+    background:url(../images/n-beetle.png) no-repeat center bottom;
+}
+
+
+#owner .label {
+    background:url(../images/n-flea.png) no-repeat center bottom;
+}
+#money .label {
+    background:url(../images/n-puffer.png) no-repeat center bottom;
+}
+
+#security .label {
+    background:url(../images/n-wasp.png) no-repeat center bottom;
+}
+
+
+#clean .label {
+    background:url(../images/n-lobster.png) no-repeat center bottom;
+}
+
+
+#rental .label {
+    background:url(../images/n-collie.png) no-repeat center bottom;
+}
+
+#procurement .label {
+    background:url(../images/n-cormorant.png) no-repeat center bottom;
+}
+
+#engineering .label {
+    background:url(../images/n-tortoise.png) no-repeat center bottom;
+}
+
+#human .label {
+    background:url(../images/n-salamander.png) no-repeat center bottom;
+}
+#office .label {
+    background:url(../images/n-snake.png) no-repeat center bottom;
+}
+#integration .label {
+    background:url(../images/n-grasshopper.png) no-repeat center bottom;
+}
+#system .label {
+    background:url(../images/n-rabbit.png) no-repeat center bottom;
+}
+.label{
+    display: block;
+    text-align: center;
+    padding: 2px 0 105px 0;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    color: #ea544a;
+    letter-spacing: 1px;
+
+
+}
+.strap{
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}

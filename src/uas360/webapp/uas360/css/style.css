@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    line-height: 22px;
+    font-family: "宋体","Microsoft YaHei", "微软雅黑", Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #000;
+    background: #fff;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 35px;
+
+    font-family: "Microsoft YaHei", "微软雅黑", Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 5px 5px 5px #888888;
+}
+
+p {
+    margin: 0 0 25px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+@media(min-width:767px) {
+    p {
+        margin: 0 0 35px;
+        font-size: 20px;
+        line-height: 1.6;
+    }
+}
+
+a {
+    color: #000;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: #ea544a;
+}
+
+.light {
+    font-weight: 400;
+}
+
+footer div p{
+    font-size: 12px;
+}
+.modal .info{
+    color:#398439;
+    padding:10px 30px ;
+    content:"数据交互中";
+    display:inline-block;
+}
+.modal .loading{
+    background:url("../images/loading.gif") no-repeat left;
+}
+.modal .checked{
+    background:url("../images/checked.gif") no-repeat left;
+}
+
+.modal .unchecked{
+    background:url("../images/unchecked.gif") no-repeat left;
+}
+
+
+
+.btn-default {
+    border: 1px solid #ea544a;
+    color:#ea544a;
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+    border: 1px solid #ea544a;
+    color:#ea544a;
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: 10px 10px 5px #888888;
+}
+.input-group{
+    box-shadow: 5px 5px 2px #888888;
+}
+
+.link{
+    padding-left: 10px;
+}
