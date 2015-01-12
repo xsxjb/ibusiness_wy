@@ -14,26 +14,30 @@
     <link href="${ctx}/uas360/favicon.ico" type="image/x-icon" rel=icon>
     <!-- Bootstrap Core CSS -->
     <link href="${ctx}/plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Core JavaScript -->
-    <script src="${ctx}/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Validator CSS -->
+    <link href="../uas360/css/bootstrapValidator.min.css" rel="stylesheet" >
+    <link href="../uas360/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" >
+    <!-- Custom CSS -->
+    <link href="../uas360/css/style.css" rel="stylesheet">
+    <link href="../uas360/css/index.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="${ctx}/plugin/jquery/jquery.js"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="${ctx}/plugin/bootstrap/js/bootstrap.min.js"></script>
+    
     <!-- Plugin JavaScript -->
     <script src="../uas360/js/jquery.easing.min.js"></script>
     <!-- Plugin JavaScript bootstrapValidator-->
     <script src="../uas360/js/bootstrapValidator.min.js"></script>
     <!-- ajax submit -->
     <script src="../uas360/js/jquery.form.js"></script>
-    <!-- Bootstrap Validator CSS -->
-    <link href="../uas360/css/bootstrapValidator.min.css" rel="stylesheet" >
-	<link href="../uas360/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" >
-    <!-- Custom CSS -->
-    <link href="../uas360/css/style.css" rel="stylesheet">
-    <link href="../uas360/css/index.css" rel="stylesheet">
+    
     <!-- my js -->
     <script src="../uas360/javascripts/uas360.js"></script>
     <!-- Index JavaScript -->
     <script src="../uas360/javascripts/index.js"></script>
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -55,12 +59,12 @@
 									$('#checkcodemsg').css({color:"green"});
 									$('#checkcodemsg').text('验证码正确');
 									// 提交按钮可用
-									$("#input_commit").removeAttr('disabled');
+									$("#loginBtn").removeAttr('disabled');
 							}else{
 									$('#checkcodemsg').css({color:"red"});
 									$('#checkcodemsg').text('验证码错误，请重新输入');
 									// 提交按钮不可用
-									$("#input_commit").attr('disabled',' true');
+									$("#loginBtn").attr('disabled',' true');
 							}
 					}
 				});
@@ -70,6 +74,7 @@
 </head>
 
 <body onload="document.f.j_username.focus();" id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <input id="param_error" type="hidden" value="${param.error}">
     <!-- Navigation -->
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
 	    <div class="container">
@@ -123,6 +128,14 @@
 	    </div>
 	</header>
 	
+	<!-- ================================================================================= -->
+	<!-- 登录失败返回信息 
+    <div class="alert alert-dismissable alert-warning"${param.error==true ? '' : 'style="display:none"'}>
+		<strong><spring:message code="core.failure.save" text="登陆失败" /></strong> &nbsp;
+		${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}
+	</div>-->
+	<!-- ================================================================================= -->
+	
 	<!-- About Section -->
 	<section id="login" class="container  text-center intro">
 	    <div class="row loginDiv" >
@@ -156,8 +169,8 @@
 	                    <input name="number" class="form-control" id="codeinput" onkeyup='checkcode()' placeholder="请输入验证码"/><span STYLE="color: red" id="checkcodemsg"></span><br/>
 	                </div>
 	            </div>
-	            <input id="input_commit" class="btn btn-default col-lg-4 col-lg-offset-4" name="submit" type="submit" value="<spring:message code='core.login.submit' text='提交'/>"  disabled="disable" />
-	        
+	            <input id="loginBtn" class="btn btn-default col-lg-4 col-lg-offset-4" name="submit" type="submit" value="<spring:message code='core.login.submit' text='提交'/>"  disabled="disable" />
+        
 	        </form>
 	
 	    </div>
@@ -218,19 +231,40 @@
 	        <p>版权所有 &copy; 哈尔滨市巨米科技发展有限公司 2014</p>
 	    </div>
 	</footer>
+	
 	<!-- 消息提示对话框 -->
 	<div class="modal fade" id="infoDialog" tabindex="-1" role="dialog"
 	     data-backdrop="static" data-keyboard="false" data-show="false">
 	    <div class="modal-dialog" >
 	        <div class="modal-content">
-	
 	            <div class="modal-body" style="text-align: center;">
-	                <span class="info"></span>
+	                <span class="info">
+	                ${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}
+	                </span>
 	            </div>
 	
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	    
+	
 </body>
+	<script type="text/javascript">
+	/** 验证用户名密码是否正确 */
+	$(document).ready(function() {
+		// 验证用户名密码是否正确
+		if (document.getElementById("param_error").value) {
+			var $dialog=$('#infoDialog').modal('show');
+			$dialog.find('.info').removeClass().addClass('info loading').text('登录数据上传中。。。');
+			$dialog.find('.info').removeClass().addClass('info unchecked').text('登录名或密码错误。。。');
+		//	$("#infoDialog").attr("class","info unchecked");
+		//	$("#infoDialog").attr("text","登录名或密码错误。。。");
+	        setTimeout(function(){
+	            clearForm();
+	            $("#infoDialog").modal('hide');
+	        },2000);
+		}
+	});
+	
+	</script>
+
 </html>

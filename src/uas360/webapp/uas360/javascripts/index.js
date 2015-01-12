@@ -31,6 +31,7 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 $(document).ready(function() {
+	/**
     $('#loginForm')
         .bootstrapValidator({
             message: '这个字段的值不正确',
@@ -80,6 +81,7 @@ $(document).ready(function() {
                 }
             }
         })
+        
         .on('success.form.bv', function(e) {
             // Prevent form submission
             e.preventDefault();
@@ -99,6 +101,7 @@ $(document).ready(function() {
                     $btn.prop('disabled',true);
                 },
                 success:function(data){
+                	alert("=======success:");
 
                     if(data.status==='ok'){
                         $dialog.find('.info').removeClass().addClass('info checked').text('登录成功。。。');
@@ -125,6 +128,7 @@ $(document).ready(function() {
                     $btn.prop('disabled',false);
                 },
                 error:function(){
+                	alert("=======error:");
                    $dialog.find('.info').removeClass().addClass('info unchecked').text('数据提交失败。。。');
                    setTimeout(function(){
                        $dialog.modal('hide');
@@ -141,6 +145,7 @@ $(document).ready(function() {
             $(this).attr("src", '/vPng?'+ Math.random());
 
     });
+    */
 });
 
 var clearForm=function(){
